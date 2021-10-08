@@ -1,6 +1,7 @@
 package com.example.newapp.activity;
 
-import android.os.Bundle;
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,7 +10,9 @@ import com.example.newapp.R;
 import com.example.newapp.api.Api;
 import com.example.newapp.api.ApiConfig;
 import com.example.newapp.api.TtitCallBack;
+import com.example.newapp.entity.LoginResponse;
 import com.example.newapp.util.StringUtils;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 
@@ -17,18 +20,24 @@ import java.util.HashMap;
 public class LoginActivity extends BaseActivity {
 
 
-    EditText et_account;
-    EditText et_pwd;
-    Button btn_login;
+    private EditText et_account;
+    private EditText et_pwd;
+    private Button btn_login;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    protected int initLayout() {
+        return R.layout.activity_login;
+    }
 
+    @Override
+    protected void initView() {
         et_account = findViewById(R.id.et_account);
         et_pwd = findViewById(R.id.et_pwd);
         btn_login = findViewById(R.id.btn_login);
+    }
+
+    @Override
+    protected void initData() {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,8 +48,9 @@ public class LoginActivity extends BaseActivity {
 
 
         });
-
     }
+
+
 
     //登录账号账号密码判断是否为空
     private void Login(String account, String password) {
@@ -56,15 +66,35 @@ public class LoginActivity extends BaseActivity {
         HashMap<String, Object> m = new HashMap<String, Object>();
         m.put("mobile", account);
         m.put("password", password);
+//For testing
+        navigateToWithFlag(HomeActivity.class,
+                Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
         Api.config(ApiConfig.LOGIN, m).PostRequest(this, new TtitCallBack() {
             @Override
             public void OnSuccess(String responseContent) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ShowToast(responseContent);
-                    }
-                });
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        ShowToast(responseContent);
+//                    }
+//                });
+
+                Log.e("onSuccess", responseContent);
+                //解析Json
+                Gson gson = new Gson();
+                LoginResponse loginResponse = gson.fromJson(responseContent, LoginResponse.class);
+                if (loginResponse.getCode() == 0) {
+                    String token = loginResponse.getToken();
+                    insertVal("token", token);
+                    navigateToWithFlag(HomeActivity.class,
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    showToastSync("登录成功");
+                } else {
+                    showToastSync("登录失败");
+                }
+
+
             }
 
             @Override

@@ -9,9 +9,13 @@
         <entry key="..\:/Users/leol/AndroidStudioProjects/NewApp/app/src/main/res/drawable/shape_big_login_btn.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/leol/AndroidStudioProjects/NewApp/app/src/main/res/drawable/shape_big_register_btn.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/leol/AndroidStudioProjects/NewApp/app/src/main/res/drawable/shape_login_form.xml" value="0.3828125" />
+        <entry key="..\:/Users/leol/AndroidStudioProjects/NewApp/app/src/main/res/layout/activity_home.xml" value="0.16354166666666667" />
         <entry key="..\:/Users/leol/AndroidStudioProjects/NewApp/app/src/main/res/layout/activity_login.xml" value="0.327445652173913" />
         <entry key="..\:/Users/leol/AndroidStudioProjects/NewApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/leol/AndroidStudioProjects/NewApp/app/src/main/res/layout/activity_register.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/leol/AndroidStudioProjects/NewApp/app/src/main/res/layout/fragment_home.xml" value="0.15715579710144928" />
+        <entry key="..\:/Users/leol/AndroidStudioProjects/NewApp/app/src/main/res/layout/fragment_my.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/leol/AndroidStudioProjects/NewApp/app/src/main/res/layout/fragment_news.xml" value="0.15520833333333334" />
         <entry key="..\:/Users/leol/AndroidStudioProjects/NewApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22135416666666666" />
       </map>
     </option>
