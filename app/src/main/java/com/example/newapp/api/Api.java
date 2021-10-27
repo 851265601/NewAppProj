@@ -32,7 +32,7 @@ public class Api {
     public static Api config(String url, HashMap<String, Object> params) {
         client = new OkHttpClient.Builder().build();
         mParams = params;
-        requestUrl = url;
+        requestUrl = ApiConfig.BASE_URl + url;
         return api;
     }
 
@@ -42,7 +42,7 @@ public class Api {
         RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);
         //创建Request
         Request request = new Request.Builder()
-                .url(ApiConfig.BASE_URl + ApiConfig.LOGIN)
+                .url(requestUrl)
                 .addHeader("contentType", "application/json;charset=utf-8")
                 .post(requestBodyJson)
                 .build();

@@ -42,5 +42,6 @@ dependencies {
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.1'
     implementation 'com.google.code.gson:gson:2.8.8'
     implementation 'io.github.h07000223:flycoTabLayout:3.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
 }

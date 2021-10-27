@@ -54,6 +54,8 @@ public class HomeActivity extends BaseActivity {
         }
         commonTabLayout.setTabData(mTabEntities);
 
+        //预加载Fragment,当点击tab 切换fragment 不预加载会Crash
+        viewPager.setOffscreenPageLimit(mFragments.size());
         //实现tab的点击事件， 点击tab bar 中TabEntitie 切换viewPager 可显示的Fragment
         commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
