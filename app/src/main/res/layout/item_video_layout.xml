@@ -75,6 +75,13 @@
             app:layout_constraintDimensionRatio="16:9"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/img_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY">
+
+            </ImageView>
             <!--            <com.dueeeke.videocontroller.component.PrepareView-->
             <!--                android:id="@+id/prepare_view"-->
             <!--                android:layout_width="match_parent"-->

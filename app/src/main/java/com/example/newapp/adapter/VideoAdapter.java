@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newapp.R;
 import com.example.newapp.entity.VideoEntity;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -47,6 +49,9 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         vh.tv_collect.setText(String.valueOf(videoEntity.getVideoSocialEntity().getCollectnum()));
         vh.tv_comment.setText(String.valueOf(videoEntity.getVideoSocialEntity().getCommentnum()));
         vh.tv_dz.setText(String.valueOf(videoEntity.getVideoSocialEntity().getLikenum()));
+        Picasso.with(mContext).load(videoEntity.getHeadurl()).into(vh.img_header);
+        Picasso.with(mContext).load(videoEntity.getCoverurl()).into(vh.img_cover);
+
     }
 
     @Override
@@ -63,6 +68,8 @@ class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     TextView tv_comment;
     TextView tv_collect;
     TextView tv_dz;
+    ImageView img_header;
+    ImageView img_cover;
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -71,7 +78,8 @@ class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
         tv_comment = itemView.findViewById(R.id.comment);
         tv_collect = itemView.findViewById(R.id.collect);
         tv_dz = itemView.findViewById(R.id.dz);
-
+        img_header = itemView.findViewById(R.id.img_header);
+        img_cover = itemView.findViewById(R.id.img_cover);
     }
 
     @Override
