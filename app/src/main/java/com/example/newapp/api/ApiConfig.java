@@ -3,6 +3,9 @@ package com.example.newapp.api;
 public class ApiConfig {
     //正确生产环境ip   101.34.172.217
     //root root
+
+    public static final int PAGE_SIZE = 5;
+
     public static final String BASE_URl = "http://101.34.172.217:8080/renren-fast";
     public static final String LOGIN = "/app/login"; //登录
     public static final String REGISTER = "/app/register";//注册

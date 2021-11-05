@@ -1,160 +1,133 @@
 package com.example.newapp.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class VideoEntity implements Serializable {
 
-    private int vid;
-    private String vtitle;
-    private String author;
-    private String coverurl;
-    private String headurl;
-    private String playurl;
-    private String createTime;
-    private String updateTime;
-    private int categoryId;
-    private String categoryName;
-    private VideoSocialEntity videoSocialEntity;
+    @SerializedName("newsId")
+    private Integer newsId;
+    @SerializedName("newsTitle")
+    private String newsTitle;
+    @SerializedName("authorName")
+    private String authorName;
+    @SerializedName("headerUrl")
+    private String headerUrl;
+    @SerializedName("commentCount")
+    private Integer commentCount;
+    @SerializedName("releaseDate")
+    private String releaseDate;
+    @SerializedName("type")
+    private Integer type;
+    @SerializedName("imgList")
+    private Object imgList;
+    @SerializedName("thumbEntities")
+    private List<ThumbEntitiesDTO> thumbEntities;
 
-    public int getVid() {
-        return vid;
+    public Integer getNewsId() {
+        return newsId;
     }
 
-    public void setVid(int vid) {
-        this.vid = vid;
+    public void setNewsId(Integer newsId) {
+        this.newsId = newsId;
     }
 
-    public String getVtitle() {
-        return vtitle;
+    public String getNewsTitle() {
+        return newsTitle;
     }
 
-    public void setVtitle(String vtitle) {
-        this.vtitle = vtitle;
+    public void setNewsTitle(String newsTitle) {
+        this.newsTitle = newsTitle;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthorName() {
+        return authorName;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
-    public String getCoverurl() {
-        return coverurl;
+    public String getHeaderUrl() {
+        return headerUrl;
     }
 
-    public void setCoverurl(String coverurl) {
-        this.coverurl = coverurl;
+    public void setHeaderUrl(String headerUrl) {
+        this.headerUrl = headerUrl;
     }
 
-    public String getHeadurl() {
-        return headurl;
+    public Integer getCommentCount() {
+        return commentCount;
     }
 
-    public void setHeadurl(String headurl) {
-        this.headurl = headurl;
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
     }
 
-    public String getPlayurl() {
-        return playurl;
+    public String getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setPlayurl(String playurl) {
-        this.playurl = playurl;
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
-    public String getCreateTime() {
-        return createTime;
+    public Integer getType() {
+        return type;
     }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
-    public String getUpdateTime() {
-        return updateTime;
+    public Object getImgList() {
+        return imgList;
     }
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
+    public void setImgList(Object imgList) {
+        this.imgList = imgList;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public List<ThumbEntitiesDTO> getThumbEntities() {
+        return thumbEntities;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setThumbEntities(List<ThumbEntitiesDTO> thumbEntities) {
+        this.thumbEntities = thumbEntities;
     }
 
-    public String getCategoryName() {
-        return categoryName;
-    }
+    public static class ThumbEntitiesDTO implements Serializable {
+        @SerializedName("thumbId")
+        private Integer thumbId;
+        @SerializedName("thumbUrl")
+        private String thumbUrl;
+        @SerializedName("newsId")
+        private Integer newsId;
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public VideoSocialEntity getVideoSocialEntity() {
-        return videoSocialEntity;
-    }
-
-    public void setVideoSocialEntity(VideoSocialEntity videoSocialEntity) {
-        this.videoSocialEntity = videoSocialEntity;
-    }
-
-    public static class VideoSocialEntity {
-        /**
-         * commentnum : 103
-         * likenum : 121
-         * collectnum : 220
-         */
-
-        private int commentnum;
-        private int likenum;
-        private int collectnum;
-        private boolean flagLike;
-        private boolean flagCollect;
-
-        public int getCommentnum() {
-            return commentnum;
+        public Integer getThumbId() {
+            return thumbId;
         }
 
-        public void setCommentnum(int commentnum) {
-            this.commentnum = commentnum;
+        public void setThumbId(Integer thumbId) {
+            this.thumbId = thumbId;
         }
 
-        public int getLikenum() {
-            return likenum;
+        public String getThumbUrl() {
+            return thumbUrl;
         }
 
-        public void setLikenum(int likenum) {
-            this.likenum = likenum;
+        public void setThumbUrl(String thumbUrl) {
+            this.thumbUrl = thumbUrl;
         }
 
-        public int getCollectnum() {
-            return collectnum;
+        public Integer getNewsId() {
+            return newsId;
         }
 
-        public void setCollectnum(int collectnum) {
-            this.collectnum = collectnum;
-        }
-
-        public boolean isFlagLike() {
-            return flagLike;
-        }
-
-        public void setFlagLike(boolean flagLike) {
-            this.flagLike = flagLike;
-        }
-
-        public boolean isFlagCollect() {
-            return flagCollect;
-        }
-
-        public void setFlagCollect(boolean flagCollect) {
-            this.flagCollect = flagCollect;
+        public void setNewsId(Integer newsId) {
+            this.newsId = newsId;
         }
     }
 }

@@ -35,6 +35,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
                     android:text="韭菜盒子新做法，不发面不烫面"
                     android:textColor="#242424"
                     android:textSize="14sp" />

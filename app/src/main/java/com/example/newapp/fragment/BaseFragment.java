@@ -34,6 +34,12 @@ public class BaseFragment extends Fragment {
         Looper.loop();
     }
 
+    public void showToast(String str) {
+        //Looper.prepare();
+        Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+        // Looper.loop();
+    }
+
     public void Navigate(Class cls) {
 
         Intent intent = new Intent(getActivity(), cls);

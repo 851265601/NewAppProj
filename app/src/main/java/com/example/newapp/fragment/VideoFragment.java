@@ -19,7 +19,11 @@ import com.example.newapp.entity.VideoEntity;
 import com.example.newapp.entity.VideoListResponse;
 import com.example.newapp.util.StringUtils;
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,64 +54,117 @@ public class VideoFragment extends BaseFragment {
 
     }
 
+    RecyclerView recyclerView;
+    VideoAdapter videoAdapter;
+    RefreshLayout refreshLayout;
+    private List<VideoEntity> datas = new ArrayList<>();
+    private int pageNum = 1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_video, container, false);
-        RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
+        recyclerView = v.findViewById(R.id.recyclerView);
+        refreshLayout = v.findViewById(R.id.refreshLayout);
 
-//        List<VideoEntity> videoEntityList = new ArrayList<VideoEntity>();
-//
-//        for (int i = 0; i < 10; i++) {
-//            VideoEntity videoEntity = new VideoEntity();
-//            videoEntity.setVtitle("this is a title" + i);
-//            videoEntity.setAuthor("Name" + i);
-//            VideoEntity.VideoSocialEntity videoSocialEntity = new VideoEntity.VideoSocialEntity();
-//            videoSocialEntity.setCollectnum(i);
-//            videoSocialEntity.setCommentnum(i);
-//            videoSocialEntity.setLikenum(i);
-//            videoEntity.setVideoSocialEntity(videoSocialEntity);
-//
-//
-//            videoEntityList.add(videoEntity);
-//        }
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        GetVideoList(recyclerView);
+        videoAdapter = new VideoAdapter(getActivity(), datas);
 
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                pageNum = 1;
+                GetVideoList(true);
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+                pageNum++;
+                GetVideoList(false);
+            }
+        });
+        GetVideoList(true);
+
+        recyclerView.setAdapter(videoAdapter);
         return v;
     }
 
-    private void GetVideoList(RecyclerView recyclerView) {
+    private void GetVideoList(final boolean isRefresh) {
         String token = getStringFromSp("token");
-
+        // List<VideoEntity> videoEntityList = new ArrayList<VideoEntity>();
         if (!StringUtils.IsStringEmpty(token)) {
             HashMap<String, Object> hashMap = new HashMap<String, Object>();
             hashMap.put("token", token);
+            hashMap.put("page", pageNum);
+            hashMap.put("limit", ApiConfig.PAGE_SIZE);
+            //   params.put("categoryId", categoryId);
             Api.config(ApiConfig.NEWS_LIST, hashMap).GetRequest(getActivity(), new TtitCallBack() {
                 @Override
                 public void OnSuccess(String res) {
+                    getActivity().runOnUiThread(
+
+                            new Runnable() {
+
+                                public void run() {
+
+                                    if (isRefresh) {
+                                        refreshLayout.finishRefresh(true);
+                                    } else {
+                                        refreshLayout.finishLoadMore(true);
+                                    }
+
+                                    //showToastSync(res);
+                                    //转化JSon 数据
+                                    VideoListResponse videoListResponse = new Gson().fromJson(res, VideoListResponse.class);
+                                    if (videoListResponse != null && videoListResponse.getCode() == 0) {
+                                        //不对空， 并且Code 为0 说明请求成功
+                                        List<VideoEntity> list = videoListResponse.getPage().getList();
+                                        if (list != null && list.size() > 0) {
+                                            if (isRefresh) {
+                                                datas = list;
+                                            } else {
+                                                datas.addAll(list);
+                                            }
+                                            videoAdapter.setDatas(list);
+                                            videoAdapter.notifyDataSetChanged();
+                                        } else {
+                                            if (isRefresh) {
+
+                                                showToast("暂时无数据");
+                                            } else {
+                                                showToast("没有更多数据");
+                                            }
+                                        }
+//                        List<VideoEntity> MyvideoEntityList = videoListResponse.getPage().getList();
+//
+//                        for (VideoEntity items:MyvideoEntityList) {
+//                            videoEntityList.add(items);
+//                        }
+                                        //因为在子线程中通过网络请求获取数据,需要在主线程 用dapter 更新recycleview
 
 
-                    //showToastSync(res);
-                    //转化JSon 数据
-                    VideoListResponse videoListResponse = new Gson().fromJson(res, VideoListResponse.class);
-                    if (videoListResponse != null && videoListResponse.getCode() == 0) {
-                        //不对空， 并且Code 为0 说明请求成功
-                        List<VideoEntity> videoEntityList = videoListResponse.getPage().getList();
+                                    }
+                                }
+                            }
+                    );
 
-                        VideoAdapter videoAdapter = new VideoAdapter(getActivity(), videoEntityList);
-                        recyclerView.setAdapter(videoAdapter);
-                    }
 
                 }
 
                 @Override
                 public void onFailure(Exception exception) {
-
+                    //关闭加载动画
+                    if (isRefresh) {
+                        refreshLayout.finishRefresh(true);
+                    } else {
+                        refreshLayout.finishLoadMore(true);
+                    }
                 }
             });
 
@@ -116,7 +173,7 @@ public class VideoFragment extends BaseFragment {
             Navigate(LoginActivity.class);
 
         }
-
+        // return videoEntityList;
 
     }
 }

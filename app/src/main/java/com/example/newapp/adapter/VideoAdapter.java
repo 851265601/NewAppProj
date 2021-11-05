@@ -12,17 +12,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newapp.R;
 import com.example.newapp.entity.VideoEntity;
+import com.example.newapp.view.CircleTransform;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context mContext;
-    private List<VideoEntity> datas;
+    private List<VideoEntity> mdatas;
+
 
     public VideoAdapter(Context context, List<VideoEntity> datas) {
         this.mContext = context;
-        this.datas = datas;
+        this.mdatas = datas;
+    }
+
+    public void setDatas(List<VideoEntity> datas) {
+        this.mdatas = datas;
     }
 
     public VideoAdapter(Context context) {
@@ -34,7 +41,7 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //把item 绑定这个viewholder
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_video_layout, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        MyViewHolder viewHolder = new MyViewHolder(view);
         return viewHolder;
     }
 
@@ -42,36 +49,48 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         //绑定 数据到viewholder中
 
-        ViewHolder vh = (ViewHolder) holder;
-        VideoEntity videoEntity = datas.get(position);
-        vh.tv_title.setText(videoEntity.getVtitle());
-        vh.tv_author.setText(videoEntity.getAuthor());
-        vh.tv_collect.setText(String.valueOf(videoEntity.getVideoSocialEntity().getCollectnum()));
-        vh.tv_comment.setText(String.valueOf(videoEntity.getVideoSocialEntity().getCommentnum()));
-        vh.tv_dz.setText(String.valueOf(videoEntity.getVideoSocialEntity().getLikenum()));
-        Picasso.with(mContext).load(videoEntity.getHeadurl()).into(vh.img_header);
-        Picasso.with(mContext).load(videoEntity.getCoverurl()).into(vh.img_cover);
+        MyViewHolder vh = (MyViewHolder) holder;
+        VideoEntity videoEntity = mdatas.get(position);
+        vh.tv_title.setText(videoEntity.getNewsTitle());
+        vh.tv_author.setText(videoEntity.getAuthorName());
+        // vh.tv_collect.setText(String.valueOf(videoEntity.().size()));
+        vh.tv_comment.setText(String.valueOf(videoEntity.getCommentCount()));
+        vh.tv_dz.setText(String.valueOf(videoEntity.getThumbEntities().size()));
 
+        //
+        Picasso.with(mContext)
+                .load(videoEntity.getHeaderUrl())
+                .transform((Transformation) new CircleTransform())
+                .into(vh.img_header);
+        Picasso.with(mContext).load(videoEntity.getThumbEntities().get(0).getThumbUrl()).into(vh.img_cover);
+        //   vh.mPosition = position;
     }
 
     @Override
     public int getItemCount() {
-        return datas.size();
+
+        if (mdatas != null && mdatas.size() > 0) {
+            return mdatas.size();
+        } else {
+            return 0;
+        }
+
+
     }
 }
 
 
-class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    TextView tv_title;
-    TextView tv_author;
-    TextView tv_comment;
-    TextView tv_collect;
-    TextView tv_dz;
-    ImageView img_header;
-    ImageView img_cover;
+    public TextView tv_title;
+    public TextView tv_author;
+    public TextView tv_comment;
+    public TextView tv_collect;
+    public TextView tv_dz;
+    public ImageView img_header;
+    public ImageView img_cover;
 
-    public ViewHolder(@NonNull View itemView) {
+    public MyViewHolder(@NonNull View itemView) {
         super(itemView);
         tv_title = itemView.findViewById(R.id.title);
         tv_author = itemView.findViewById(R.id.author);
